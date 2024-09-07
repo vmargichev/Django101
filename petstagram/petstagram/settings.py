@@ -45,7 +45,7 @@ ROOT_URLCONF = 'petstagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'petstagram'/ 'templates' / 'main' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

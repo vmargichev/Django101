@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.core.validators import MinLengthValidator
 
@@ -89,6 +90,10 @@ class Pet(models.Model):
         Profile,
         on_delete=models.CASCADE,
     )
+    @property
+    def age(self):
+        return datetime.now().year - self.date_of_birth.year
+
 
     def __str__(self) -> str:
         return f'{self.name} {self.type}'
