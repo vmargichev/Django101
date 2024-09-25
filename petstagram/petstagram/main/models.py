@@ -39,11 +39,6 @@ class Profile(models.Model):
         blank=True,
     )
 
-    description = models.TextField(
-        null=True,
-        blank=True,
-    )
-
     email = models.EmailField(
         null=True,
         blank=True,
@@ -52,6 +47,12 @@ class Profile(models.Model):
     gender = models.CharField(
         max_length=max(len(x) for x, _ in GENDERS),
         choices=GENDERS,
+        null=True,
+        blank=True,
+        default=DO_NOT_SHOW,
+    )
+
+    description = models.TextField(
         null=True,
         blank=True,
     )
@@ -106,7 +107,7 @@ class PetPhoto(models.Model):
     photo = models.ImageField(
         validators= (
             file_max_size_validator,
-        )
+        ),
     )
 
     tagged_pets = models.ManyToManyField(
