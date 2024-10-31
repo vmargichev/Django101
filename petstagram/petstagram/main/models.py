@@ -1,64 +1,14 @@
 from datetime import datetime
-from django.db import models
-from django.core.validators import MinLengthValidator
 
-from petstagram.main.validators import file_max_size_validator, only_letters_validator
+from django.contrib.auth import get_user_model
+from django.db import models
+
+from petstagram.common.validators import file_max_size_validator
+
+UserModel = get_user_model()
 
 # Create your models here.
-class Profile(models.Model):
-    FIRST_NAME_MAX_LENGTH =30
-    FIRST_NAME_MIN_LENGTH =2
-    LAST_NAME_MAX_LENGTH =30
-    LAST_NAME_MIN_LENGTH =2
 
-    MALE='MALE'
-    FEMALE='FEMALE'
-    DO_NOT_SHOW='Do not Show'
-
-    GENDERS=[(x, x) for x in (MALE, FEMALE, DO_NOT_SHOW)]
-
-    #id/pk by default
-    first_name = models.CharField(
-        max_length=FIRST_NAME_MAX_LENGTH,
-        validators = (
-            MinLengthValidator(
-                limit_value=FIRST_NAME_MIN_LENGTH,
-                               ),
-            only_letters_validator,
-        )
-    )
-
-    last_name = models.CharField(
-        max_length=LAST_NAME_MAX_LENGTH,
-    )
-
-    picture = models.URLField()
-
-    date_of_birth = models.DateField(
-        null=True,
-        blank=True,
-    )
-
-    email = models.EmailField(
-        null=True,
-        blank=True,
-    )
-
-    gender = models.CharField(
-        max_length=max(len(x) for x, _ in GENDERS),
-        choices=GENDERS,
-        null=True,
-        blank=True,
-        default=DO_NOT_SHOW,
-    )
-
-    description = models.TextField(
-        null=True,
-        blank=True,
-    )
-
-    def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
 
 class Pet(models.Model):
 
@@ -87,10 +37,11 @@ class Pet(models.Model):
         blank=True,
     )
 
-    user_profile = models.ForeignKey(
-        Profile,
+    user = models.ForeignKey(
+        UserModel,
         on_delete=models.CASCADE,
     )
+
     @property
     def age(self):
         return datetime.now().year - self.date_of_birth.year
@@ -100,7 +51,7 @@ class Pet(models.Model):
         return f'{self.name} {self.type}'
 
     class Meta():
-        unique_together = ('user_profile', 'name')
+        unique_together = ('user', 'name')
     
 class PetPhoto(models.Model):
 
@@ -126,4 +77,9 @@ class PetPhoto(models.Model):
 
     likes = models.IntegerField(
         default=0,
+    )
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
     )

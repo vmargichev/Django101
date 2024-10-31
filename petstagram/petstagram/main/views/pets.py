@@ -1,36 +1,30 @@
-from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, UpdateView
 
 from petstagram.main.forms import CreatePetForm, DeletePetForm, EditPetForm
-from petstagram.main.helpers import get_profile
 from petstagram.main.models import Pet
 
-def pet_action(request, form_class, success_url, instance, template_name):
-    if request.method == 'POST':
-        form = form_class(request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect(success_url)
-        # else:
-        #     # If form is invalid, we still need to render the form with errors
-        #     context = {
-        #         'form': form,
-        #         'pet': instance,
-        #     }
-        #     return render(request, template_name, context)
-    else:
-        form = form_class(instance=instance)
-        
-    context = {
-            'form': form,
-            'pet': instance,
-        }
-    return render(request, template_name, context)
+class CreatePetView(CreateView):
+    form_class = CreatePetForm
+    template_name = 'pet_create.html'
+    success_url = reverse_lazy('dashboard')
 
-def create_pet(request):
-    return pet_action(request, CreatePetForm, 'profile details', Pet(user_profile=get_profile()), 'pet_create.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create Pet'
+        return context
 
-def edit_pet(request, pk):
-    return pet_action(request, EditPetForm, 'profile details', Pet.objects.get(pk=pk), 'pet_edit.html')
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-def delete_pet(request, pk):
-    return pet_action(request, DeletePetForm, 'profile details', Pet.objects.get(pk=pk), 'pet_delete.html')
+class DeletePetView(DeleteView):
+    model = Pet
+    form_class = DeletePetForm
+    template_name = 'pet_delete.html'
+
+class EditPetView(UpdateView):
+    model = Pet
+    form_class = EditPetForm
+    template_name = 'pet_edit.html'
