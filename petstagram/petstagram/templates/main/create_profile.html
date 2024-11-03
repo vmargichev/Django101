@@ -8,7 +8,7 @@
         <h1 class="display-4">Welcome to Petstagram</h1>
         <p class="lead">Share your pets photos.</p>
         <hr class="my-4">
-        <form method="post" action="{% url "create profile" %}">
+        <form method="post" action="{% url "register" %}">
             {% csrf_token %}
             {{form.as_table}}
             <button class="btn btn-primary mt-2">Create</button>
