@@ -12,7 +12,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'https://petstagram-tutorial-3d0cc409e326.herokuapp.com/'
+    'petstagram-tutorial-3d0cc409e326.herokuapp.com'
 ]
 
 DJANGO_APPS = (
@@ -38,7 +38,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PETSTAGRAM_APPS
 
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
