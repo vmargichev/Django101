@@ -1,3 +1,5 @@
+import os
+
 from petstagram.accounts.models import Profile
 
 class BootstrapMixin:
@@ -27,3 +29,7 @@ def get_profile():
     if profiles:
         return profiles[0]
     return None
+
+def is_production():
+    if os.getenv('APP_ENVIRONMENT') == 'Production':
+        return True

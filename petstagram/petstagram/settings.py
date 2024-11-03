@@ -1,3 +1,5 @@
+import os
+from os import getenv
 from pathlib import Path
 
 from django.contrib import staticfiles
@@ -5,15 +7,11 @@ from django.contrib import staticfiles
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-#w8kylth&v2hrpm+_2y0tuq9tf=q7m2%iv*5&pjuqwsa)+&z2h'
+SECRET_KEY = os.getenv('SECRET_KEY', 'sk')
 
-DEBUG = True
+DEBUG = getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'petstagram-tutorial-3d0cc409e326.herokuapp.com'
-]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
 
 DJANGO_APPS = (
     'django.contrib.admin',
@@ -81,11 +79,11 @@ WSGI_APPLICATION = 'petstagram.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "d70g7i5h8ni2dd",
-        "USER": "uf8chlh72ii9ch",
-        "PASSWORD": "pb216f019b65f298a710977da08367c5beba2b4a115483160eb00076ff6b1c0c3",
-        "HOST": "cah8ha8ra8h8i7.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com",
-        "PORT": "5432",
+        "NAME": os.getenv('NAME', 'localhost'),
+        "USER": os.getenv('USER', 'postgres'),
+        "PASSWORD": os.getenv('PASSWORD', 'mysecretpassword'),
+        "HOST": os.getenv('HOST', '127.0.0.1'),
+        "PORT": os.getenv('PORT', '5432'),
     }
 }
 
