@@ -1,0 +1,2 @@
+web: gunicorn --pythonpath petstagram petstagram.wsgi myproject.wsgi
+release: python petstagram/manage.py migrate
