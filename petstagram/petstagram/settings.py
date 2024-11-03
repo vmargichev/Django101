@@ -9,7 +9,11 @@ SECRET_KEY = 'django-insecure-#w8kylth&v2hrpm+_2y0tuq9tf=q7m2%iv*5&pjuqwsa)+&z2h
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'https://petstagram-tutorial-3d0cc409e326.herokuapp.com/'
+]
 
 DJANGO_APPS = (
     'django.contrib.admin',
