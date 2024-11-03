@@ -15,7 +15,7 @@ from petstagram.main.models import Pet, PetPhoto
 # Create your views here.
 class UserRegisterView(SuccessMessageMixin, RedirectToDashboardIfLoggedInMixin, CreateView):
     form_class = CreateProfileForm
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('index')
     template_name = 'create_profile.html'
 
 class UserLoginView(auth_views.LoginView):

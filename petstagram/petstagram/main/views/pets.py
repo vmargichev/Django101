@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from petstagram.main.forms import CreatePetForm, DeletePetForm, EditPetForm
@@ -28,3 +28,6 @@ class EditPetView(UpdateView):
     model = Pet
     form_class = EditPetForm
     template_name = 'pet_edit.html'
+
+    def get_success_url(self):
+        return reverse('profile details', kwargs={'pk': self.request.user.pk})
